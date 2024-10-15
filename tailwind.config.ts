@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      aspectRatio: {
+        "9/16": "9 / 16",
+        "16/9": "16 / 9",
+      },
     },
   },
   plugins: [],
