@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ProductProvider } from "@/context/ProductContext";
-
+import MobileNavbar from "@/components/MobileNavbar";
+import Footer from "@/components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,13 +31,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased scrollbar-hidden`}
       >
         <ProductProvider>
-          <Navbar />
+          <div className="hidden sm:block">
+            <Navbar />
+          </div>
+          <div className="block sm:hidden">
+            <MobileNavbar />
+          </div>
           <main>{children}</main>
         </ProductProvider>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );

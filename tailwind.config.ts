@@ -16,8 +16,18 @@ const config: Config = {
         "9/16": "9 / 16",
         "16/9": "16 / 9",
       },
+      animation: {
+        fadeIn: "fadeIn 0.5s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" }, // Opacity values as strings
+          "100%": { opacity: "1" }, // Opacity values as strings
+        },
+      },
     },
   },
   plugins: [],
 };
+
 export default config;

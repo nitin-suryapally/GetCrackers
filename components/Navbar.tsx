@@ -4,28 +4,38 @@ import { Suspense } from "react";
 import Search, { SearchSkeleton } from "./Search";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useProductContext } from "@/context/ProductContext";
+import Categories from "./Categories";
 
 const Navbar = () => {
   const { cart } = useProductContext();
 
   return (
-    <nav className="relative flex items-center justify-between p-4 w-full lg:px-6 bg-white dark:bg-neutral-900 shadow-md max-w-7xl mx-auto">
-      <div className="flex w-full items-center justify-between">
-        <div className="hidden sm:flex">
+    <nav className="relative flex items-center justify-between p-4 w-full lg:px-6 bg-white dark:bg-neutral-900 shadow-md mx-auto">
+      {/* Navbar content for large screens */}
+      <div className="flex w-full items-center justify-between space-x-8">
+        {/* Logo - Visible only on large screens */}
+        <div className="flex-shrink-0 hidden md:block">
           <Link href="/" prefetch={true} className="flex items-center">
-            <div className="ml-2 text-sm font-medium uppercase md:text-2xl">
+            <div className="ml-2 text-lg font-medium uppercase md:text-2xl">
               GetCrackers
             </div>
           </Link>
         </div>
 
-        <div className="flex  w-full sm:w-1/3  lg:w-1/2 xl:w-1/3">
+        {/* Categories - Visible only on large screens */}
+        <div className="hidden md:block">
+          <Categories />
+        </div>
+
+        {/* Search bar - Visible on large screens */}
+        <div className="flex-grow hidden sm:flex items-center justify-center sm:w-1/3 lg:w-1/2 xl:w-1/3">
           <Suspense fallback={<SearchSkeleton />}>
             <Search />
           </Suspense>
         </div>
 
-        <div className="flex justify-end items-center space-x-4">
+        {/* Shopping Cart */}
+        <div className="flex-shrink-0">
           <Link href="/cart" className="relative flex items-center">
             <ShoppingCartIcon className="h-6 w-6 text-black dark:text-white" />
             {cart.length > 0 && (
@@ -35,6 +45,13 @@ const Navbar = () => {
             )}
           </Link>
         </div>
+      </div>
+
+      {/* Search bar (visible below `md`) */}
+      <div className="block sm:hidden w-full mt-4">
+        <Suspense fallback={<SearchSkeleton />}>
+          <Search />
+        </Suspense>
       </div>
     </nav>
   );

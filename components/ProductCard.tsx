@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function ProductCard({ product }: { product: any }) {
   const { addToCart, cart } = useProductContext();
-
+  // console.log(product.slug);
   return (
     <div className="border border-gray-800 rounded-lg shadow-md overflow-hidden p-4 flex flex-col transition duration-300 hover:border-blue-300 hover:shadow-lg">
       {product.images[0] && (
@@ -40,26 +40,8 @@ export default function ProductCard({ product }: { product: any }) {
         </p>
       </div>
 
-      <button
-        className="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
-        onClick={() => {
-          console.log("Adding to Cart: ", product);
-          addToCart({
-            _id: product._id,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            category: product.category,
-            company: product.company,
-            slug: product.slug,
-            images: product.images,
-            quantity: 1,
-          });
-
-          console.log(cart);
-        }}
-      >
-        Add to Cart
+      <button className="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 z-30">
+        View product
       </button>
     </div>
   );

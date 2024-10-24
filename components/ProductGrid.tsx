@@ -1,27 +1,64 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useProductContext } from "@/context/ProductContext";
 import ProductCard from "./ProductCard";
+import Popup from "./Popup";
+import Link from "next/link"; // Still valid in Next.js 13+ App Router
 
 interface ProductGridProps {
   defaultProducts: any[];
 }
 
 export default function ProductGrid({ defaultProducts }: ProductGridProps) {
-  const { products } = useProductContext();
+  const { filteredProducts, products } = useProductContext();
+  const [showPopup, setShowPopup] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [displayProducts, setDisplayProducts] = useState(products);
 
-  const displayProducts = products.length > 0 ? products : defaultProducts;
+  useEffect(() => {
+    if (filteredProducts.length > 0) {
+      setDisplayProducts(filteredProducts);
+    } else if (products.length > 0) {
+      setDisplayProducts(products);
+    } else {
+      setDisplayProducts(defaultProducts);
+    }
+
+    if (filteredProducts.length === 0 && products.length > 0 && hasInteracted) {
+      setShowPopup(true);
+    } else {
+      setShowPopup(false);
+    }
+  }, [filteredProducts, products, defaultProducts, hasInteracted]);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-      {displayProducts.length > 0 ? (
-        displayProducts.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))
-      ) : (
-        <div className="col-span-full text-center text-gray-500">
-          No products found.
-        </div>
+    <>
+      {showPopup && (
+        <Popup
+          message="No products found for the selected category or search term. Displaying all products."
+          onClose={closePopup}
+        />
       )}
-    </div>
+      <div
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-y-auto"
+        style={{ maxHeight: '80vh' }} // Adjust height as needed
+      >
+        {displayProducts.length > 0 ? (
+          displayProducts.map((product) => (
+            <Link key={product._id} href={`/product/${product.slug.current}`}>
+              <ProductCard product={product} />
+            </Link>
+          ))
+        ) : (
+          <div className="col-span-full text-center text-gray-500">
+            No products found.
+          </div>
+        )}
+      </div>
+    </>
   );
 }

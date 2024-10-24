@@ -37,7 +37,6 @@ export const product = defineType({
       title: 'Price',
       type: 'number',
     },
-
     {
       name: 'category',
       title: 'Category',
@@ -56,6 +55,13 @@ export const product = defineType({
           { title: 'Fancy', value: 'fancy' },
         ],
       },
+    },
+    // New field for video link
+    {
+      name: 'videoLink',
+      title: 'Video Link',
+      type: 'url',
+      description: 'URL of the featured product video.',
     },
   ],
 });
