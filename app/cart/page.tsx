@@ -44,7 +44,7 @@ export default function CartPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiToken}`,
+            Authorization: `Bearer skaLRJA2rrWZKW2RR1MGdDtpyOap1ZvW207eIrTHlI1dUGvbbsztUBuiO537ruZjyls83UPnftORdmzCPg6oNt0VH1a4IcyR7f9eI5Y74cbGQZcIaTErgANbUwL2JlhWxsJfVnnXCkiJffKeKLTooYD4KwLMkRyP3FTze7lo3fisyQI4te9Y`,
           },
           body: JSON.stringify({
             mutations: [
