@@ -35,7 +35,7 @@ export default function CartPage() {
     setIsSubmitting(true);
 
     const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string;
-    const apiToken = process.env.NEXT_PUBLIC_SANITY_API_TOKEN as string;
+    const apiToken = process.env.NEXT_PRIVATE_SANITY_API_TOKEN as string;
 
     try {
       const response = await fetch(
