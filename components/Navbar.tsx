@@ -16,7 +16,7 @@ const Navbar = () => {
         {/* Logo - Visible only on large screens */}
         <div className="flex-shrink-0 hidden md:block">
           <Link href="/" prefetch={true} className="flex items-center">
-            <div className="ml-2 text-lg font-medium uppercase md:text-2xl">
+            <div className="ml-2 text-lg font-medium uppercase md:text-2xl text-white">
               GetCrackers
             </div>
           </Link>

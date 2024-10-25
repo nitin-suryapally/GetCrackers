@@ -160,7 +160,7 @@ export default function CartPage() {
               <label className="block mb-2">Name</label>
               <input
                 type="text"
-                className="border p-2 w-full"
+                className="border p-2 w-full text-white bg-black"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Enter your name"
@@ -170,7 +170,7 @@ export default function CartPage() {
               <label className="block mb-2">Phone Number</label>
               <input
                 type="text"
-                className="border p-2 w-full"
+                className="border p-2 w-full text-white bg-black"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Enter your phone number"

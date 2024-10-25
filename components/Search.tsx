@@ -71,7 +71,7 @@ export default function Search() {
         />
         <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
           <button type="submit">
-            <MagnifyingGlassIcon className="h-4" />
+            <MagnifyingGlassIcon className="h-4 text-white" />
           </button>
         </div>
       </form>

@@ -17,3 +17,7 @@ button {
 .scrollbar-hidden::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
+
+body {
+  background-color: black;
+}

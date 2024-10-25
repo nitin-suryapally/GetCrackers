@@ -1,4 +1,3 @@
-import FeaturedVideo from "@/components/FeaturedVideo";
 import Products from "@/components/Products";
 
 export default function Home() {

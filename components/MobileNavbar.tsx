@@ -67,7 +67,7 @@ const MobileNavbar = () => {
           {/* Sidebar Content: Logo and Categories */}
           <div className="px-4 py-4">
             <Link href="/" prefetch={true} className="flex items-center mb-6">
-              <div className="ml-2 text-lg font-medium uppercase">
+              <div className="ml-2 text-lg font-medium uppercase text-white">
                 GetCrackers
               </div>
             </Link>
