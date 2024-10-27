@@ -7,7 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateCartQuantity, clearCart } = useProductContext();
+  const { cart, removeFromCart, updateCartQuantity, clearCart } =
+    useProductContext();
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,7 +46,7 @@ export default function CartPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiToken}`,
+            Authorization: `Bearer skaLRJA2rrWZKW2RR1MGdDtpyOap1ZvW207eIrTHlI1dUGvbbsztUBuiO537ruZjyls83UPnftORdmzCPg6oNt0VH1a4IcyR7f9eI5Y74cbGQZcIaTErgANbUwL2JlhWxsJfVnnXCkiJffKeKLTooYD4KwLMkRyP3FTze7lo3fisyQI4te9Y`,
           },
           body: JSON.stringify({
             mutations: [
@@ -94,7 +95,7 @@ export default function CartPage() {
       <h1 className="text-3xl font-bold text-center mb-8">Shopping Cart</h1>
 
       {cart.length === 0 ? (
-        <p className="text-center">Your cart is empty</p>
+        <p className="text-center text-white">Your cart is empty</p>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 ">
