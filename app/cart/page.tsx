@@ -1,3 +1,4 @@
+// Import the necessary modules and useProductContext hook
 "use client";
 import React, { useState } from "react";
 import { useProductContext } from "@/context/ProductContext";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateCartQuantity } = useProductContext();
+  const { cart, removeFromCart, updateCartQuantity, clearCart } = useProductContext();
   const [customerName, setCustomerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,7 +45,7 @@ export default function CartPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer skaLRJA2rrWZKW2RR1MGdDtpyOap1ZvW207eIrTHlI1dUGvbbsztUBuiO537ruZjyls83UPnftORdmzCPg6oNt0VH1a4IcyR7f9eI5Y74cbGQZcIaTErgANbUwL2JlhWxsJfVnnXCkiJffKeKLTooYD4KwLMkRyP3FTze7lo3fisyQI4te9Y`,
+            Authorization: `Bearer ${apiToken}`,
           },
           body: JSON.stringify({
             mutations: [
@@ -62,6 +63,9 @@ export default function CartPage() {
 
       const data = await response.json();
       setOrderSubmitted(true);
+
+      // Step 3: Use clearCart to clear both the context and localStorage
+      clearCart();
       alert("Order submitted successfully!");
     } catch (error) {
       console.error("Error creating document:", error);

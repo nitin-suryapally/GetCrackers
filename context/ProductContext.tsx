@@ -33,6 +33,7 @@ interface ProductContextType {
   addToCart: (product: CartItem) => void;
   removeFromCart: (id: string) => void;
   updateCartQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void; // Add clearCart to the context type
   filterByCategory: (category: string) => void;
   searchProducts: (searchTerm: string) => void;
 }
@@ -50,7 +51,7 @@ export function useProductContext() {
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<CartItem[] | null>(null);
+  const [cart, setCart] = useState<CartItem[]>([]); // Default to empty array
   const [selectedCategory, setSelectedCategory] = useState<string>("all"); // Default to 'all'
 
   // Fetch products from Sanity on initial load
@@ -75,42 +76,43 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
   // Update localStorage whenever the cart changes
   useEffect(() => {
-    if (cart !== null) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
   // Add a product to the cart
   const addToCart = (product: CartItem) => {
     setCart((prevCart) => {
-      const existingProduct = prevCart?.find(
-        (item) => item._id === product._id
-      );
+      const existingProduct = prevCart.find((item) => item._id === product._id);
       if (existingProduct) {
-        return prevCart?.map((item) =>
+        return prevCart.map((item) =>
           item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
-        ) as CartItem[];
+        );
       } else {
-        return [...(prevCart || []), { ...product, quantity: 1 }];
+        return [...prevCart, { ...product, quantity: 1 }];
       }
     });
   };
 
   // Remove a product from the cart
   const removeFromCart = (id: string) => {
-    setCart((prevCart) => prevCart?.filter((item) => item._id !== id) || []);
+    setCart((prevCart) => prevCart.filter((item) => item._id !== id));
   };
 
   // Update the quantity of a product in the cart
   const updateCartQuantity = (id: string, quantity: number) => {
-    setCart(
-      (prevCart) =>
-        prevCart?.map((item) =>
-          item._id === id ? { ...item, quantity: quantity } : item
-        ) || []
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item._id === id ? { ...item, quantity } : item
+      )
     );
+  };
+
+  // Clear the cart and localStorage
+  const clearCart = () => {
+    setCart([]); // Clear cart state
+    localStorage.removeItem("cart"); // Clear localStorage
   };
 
   // Handle category selection
@@ -120,11 +122,14 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
   // Effect to filter products based on selectedCategory
   useEffect(() => {
-    const filtered = products.filter(
-      (product) =>
-        product.category.toLowerCase() === selectedCategory.toLowerCase()
-    );
-    setFilteredProducts(filtered);
+    if (selectedCategory === "all") {
+      setFilteredProducts(products); // Show all products if category is 'all'
+    } else {
+      const filtered = products.filter(
+        (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+      setFilteredProducts(filtered);
+    }
   }, [selectedCategory, products]); // Dependency on selectedCategory and products
 
   // Search products by name
@@ -134,10 +139,6 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     );
     setFilteredProducts(searchResults);
   };
-
-  if (cart === null) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <ProductContext.Provider
@@ -149,6 +150,7 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         addToCart,
         removeFromCart,
         updateCartQuantity,
+        clearCart, // Include clearCart in the context value
         filterByCategory,
         searchProducts,
       }}

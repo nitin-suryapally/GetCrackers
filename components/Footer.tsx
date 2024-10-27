@@ -6,8 +6,9 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <h1 className="text-xl font-bold">GetCrackers</h1>
-          <p>Shashank</p>
-          <p>Contact No.: +919553734530</p>
+          <p></p>
+          <p>Contact No.: +918096305630
+          </p>
         </div>
       </div>
     </footer>
