@@ -21,7 +21,7 @@ const MobileNavbar = () => {
   return (
     <>
       {/* Mobile Navbar */}
-      <nav className="relative flex items-center justify-between p-4 w-full lg:px-6 bg-black  shadow-md mx-auto md:hidden z-50">
+      <nav className="relative flex items-center justify-between p-4 w-full lg:px-6 bg-black shadow-md mx-auto md:hidden z-50">
         <div className="flex w-full items-center justify-between space-x-8">
           {/* Hamburger Icon for Sidebar */}
           <button onClick={toggleSidebar} className="md:hidden">
@@ -51,7 +51,7 @@ const MobileNavbar = () => {
 
       {/* Sidebar for Logo and Categories */}
       <div
-        className={`fixed inset-y-0 left-0 w-64 bg-black  shadow-md transform z-50 ${
+        className={`fixed inset-y-0 left-0 w-64 bg-black shadow-md transform z-50 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
@@ -72,8 +72,8 @@ const MobileNavbar = () => {
               </div>
             </Link>
 
-            {/* Categories */}
-            <Categories />
+            {/* Categories with Sidebar Close on Select */}
+            <Categories onCategorySelect={toggleSidebar} />
           </div>
         </div>
       </div>
