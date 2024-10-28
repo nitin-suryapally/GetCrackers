@@ -5,6 +5,7 @@ import Search, { SearchSkeleton } from "./Search";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useProductContext } from "@/context/ProductContext";
 import Categories from "./Categories";
+import Companies from "./Companies";
 
 const Navbar = () => {
   const { cart } = useProductContext();
@@ -25,6 +26,9 @@ const Navbar = () => {
         {/* Categories - Visible only on large screens */}
         <div className="hidden md:block">
           <Categories />
+        </div>
+        <div className="hidden md:block">
+          <Companies />
         </div>
 
         {/* Search bar - Visible on large screens */}

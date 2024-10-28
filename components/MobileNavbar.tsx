@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import Link from "next/link";
 import { Suspense, useState } from "react";
 import {
@@ -9,6 +9,7 @@ import {
 import { useProductContext } from "@/context/ProductContext";
 import Categories from "./Categories";
 import Search, { SearchSkeleton } from "./Search";
+import Companies from "./Companies";
 
 const MobileNavbar = () => {
   const { cart } = useProductContext();
@@ -65,7 +66,7 @@ const MobileNavbar = () => {
           </button>
 
           {/* Sidebar Content: Logo and Categories */}
-          <div className="px-4 py-4">
+          <div className="px-4 py-4 flex flex-col space-y-4">
             <Link href="/" prefetch={true} className="flex items-center mb-6">
               <div className="ml-2 text-lg font-medium uppercase text-white">
                 GetCrackers
@@ -74,6 +75,9 @@ const MobileNavbar = () => {
 
             {/* Categories with Sidebar Close on Select */}
             <Categories onCategorySelect={toggleSidebar} />
+
+            {/* Companies with Sidebar Close on Select */}
+            <Companies onCompanySelect={toggleSidebar} />
           </div>
         </div>
       </div>

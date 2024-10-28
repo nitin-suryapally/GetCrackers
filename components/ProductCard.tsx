@@ -5,7 +5,7 @@ import AddToCartButton from "./AddToCartButton";
 import Link from "next/link";
 
 export default function ProductCard({ product }: { product: any }) {
-  console.log(product);
+  // console.log(product);
   const productName = product.name || "Unnamed Product";
   const productPrice =
     product.price != null

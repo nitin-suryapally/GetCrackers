@@ -33,8 +33,9 @@ interface ProductContextType {
   addToCart: (product: CartItem) => void;
   removeFromCart: (id: string) => void;
   updateCartQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void; // Add clearCart to the context type
+  clearCart: () => void;
   filterByCategory: (category: string) => void;
+  filterByCompany: (company: string) => void;
   searchProducts: (searchTerm: string) => void;
 }
 
@@ -51,15 +52,16 @@ export function useProductContext() {
 export function ProductProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<CartItem[]>([]); // Default to empty array
-  const [selectedCategory, setSelectedCategory] = useState<string>("all"); // Default to 'all'
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCompany, setSelectedCompany] = useState<string>("all");
 
   // Fetch products from Sanity on initial load
   useEffect(() => {
     const fetchProducts = async () => {
       const fetchedProducts = await client.fetch(groq`*[_type=="product"]`);
       setProducts(fetchedProducts);
-      setFilteredProducts(fetchedProducts); // Initially, show all products
+      setFilteredProducts(fetchedProducts);
     };
     fetchProducts();
   }, []);
@@ -69,8 +71,6 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
       setCart(JSON.parse(storedCart));
-    } else {
-      setCart([]);
     }
   }, []);
 
@@ -111,26 +111,38 @@ export function ProductProvider({ children }: { children: ReactNode }) {
 
   // Clear the cart and localStorage
   const clearCart = () => {
-    setCart([]); // Clear cart state
-    localStorage.removeItem("cart"); // Clear localStorage
+    setCart([]);
+    localStorage.removeItem("cart");
   };
 
   // Handle category selection
   const filterByCategory = (category: string) => {
-    setSelectedCategory(category); // Update the selected category
+    setSelectedCategory(category);
   };
 
-  // Effect to filter products based on selectedCategory
+  // Handle company selection
+  const filterByCompany = (company: string) => {
+    setSelectedCompany(company);
+  };
+
+  // Effect to filter products based on selectedCategory and selectedCompany
   useEffect(() => {
-    if (selectedCategory === "all") {
-      setFilteredProducts(products); // Show all products if category is 'all'
-    } else {
-      const filtered = products.filter(
+    let filtered = products;
+
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter(
         (product) => product.category.toLowerCase() === selectedCategory.toLowerCase()
       );
-      setFilteredProducts(filtered);
     }
-  }, [selectedCategory, products]); // Dependency on selectedCategory and products
+
+    if (selectedCompany !== "all") {
+      filtered = filtered.filter(
+        (product) => product.company.toLowerCase() === selectedCompany.toLowerCase()
+      );
+    }
+
+    setFilteredProducts(filtered);
+  }, [selectedCategory, selectedCompany, products]);
 
   // Search products by name
   const searchProducts = (searchTerm: string) => {
@@ -150,8 +162,9 @@ export function ProductProvider({ children }: { children: ReactNode }) {
         addToCart,
         removeFromCart,
         updateCartQuantity,
-        clearCart, // Include clearCart in the context value
+        clearCart,
         filterByCategory,
+        filterByCompany,
         searchProducts,
       }}
     >
